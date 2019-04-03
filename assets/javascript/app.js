@@ -1,6 +1,7 @@
+// Array of our questions
 const trivia = [
   {
-    question: "How many wheels are on a car?",
+    question: 'How many wheels are on a car?',
     answer1: 1,
     answer2: 2,
     answer3: 4,
@@ -8,7 +9,7 @@ const trivia = [
     correctAnswer: this.answer4,
   },
   {
-    question: "How many wheels are on a motorcycle?",
+    question: 'How many wheels are on a motorcycle?',
     answer1: 1,
     answer2: 2,
     answer3: 4,
@@ -16,7 +17,7 @@ const trivia = [
     correctAnswer: this.answer2,
   },
   {
-    question: "How many wheels are on a unicycle?",
+    question: 'How many wheels are on a unicycle?',
     answer1: 1,
     answer2: 2,
     answer3: 4,
@@ -24,7 +25,7 @@ const trivia = [
     correctAnswer: this.answer1,
   },
   {
-    question: "How many wheels are on a unicycle?",
+    question: 'How many wheels are on a unicycle?',
     answer1: 1,
     answer2: 2,
     answer3: 4,
@@ -32,7 +33,7 @@ const trivia = [
     correctAnswer: this.answer1,
   },
   {
-    question: "How many wheels are on a tricycle?",
+    question: 'How many wheels are on a tricycle?',
     answer1: 1,
     answer2: 2,
     answer3: 3,
@@ -40,7 +41,7 @@ const trivia = [
     correctAnswer: this.answer3,
   },
   {
-    question: "How many wheels are on an 18-Wheeler?",
+    question: 'How many wheels are on an 18-Wheeler?',
     answer1: 16,
     answer2: 18,
     answer3: 20,
@@ -48,24 +49,40 @@ const trivia = [
     correctAnswer: this.answer2,
   },
 ];
-const gameDiv = document.getElementById("game");
-// create a question card
-// append it to gameDiv
-// set time out to show result card
-// update score
-// set interval to show new question
-// at end of interval, we show results
-function makeCard(obj, i) {
-  const triviaCard = document.createElement("DIV");
-  triviaCard.setAttribute("id", `question-${i}`);
-  triviaCard.innerHTML = `
-  <p class="question>${obj.question}</p>
-  <input type="radio" value="answer1">${obj.answer1}
-  <input type="radio" value="answer2">${obj.answer2}
-  <input type="radio" value="answer3">${obj.answer3}
-  <input type="radio" value="answer4">${obj.answer4}
-  `;
+// The game Div
+const gameDiv = document.getElementById('game');
+function makeCard(obj, index) {
+  // const triviaCard = document.createElement('div');
+
+  // triviaCard.setAttribute('id', `question-${index + 1}`);
+
+  const cardHTML = `<div id=question-${index + 1}>
+  <p class="question">${obj.question}</p>
+  <input type="radio" name="question-${index + 1}" value="answer1"> ${
+    obj.answer1
+  } Wheels
+  <input type="radio" name="question-${index + 1}" value="answer2"> ${
+    obj.answer2
+  } Wheels
+  <input type="radio" name="question-${index + 1}" value="answer3"> ${
+    obj.answer3
+  } Wheels
+  <input type="radio" name="question-${index + 1}" value="answer4"> ${
+    obj.answer4
+  } Wheels
+  </div>`;
+  return cardHTML;
 }
+
 function startGame() {
-  trivia.forEach(obj => makeCard(obj));
+  // format Questions into DOM elements
+  const cardArray = trivia.map((obj, i) => makeCard(obj, i));
+  // add Dom Elements to the form
+  console.log(cardArray);
+  for (let i = 0; i < cardArray.length; i += 1) {
+    const questionDiv = document.createElement('div');
+    questionDiv.innerHTML = cardArray[i];
+    gameDiv.append(questionDiv);
+  }
 }
+startGame();
