@@ -51,6 +51,20 @@ const trivia = [
 ];
 // The game Div
 const gameDiv = document.getElementById('game');
+// The timer
+const timeDiv = document.getElementById('time');
+timeDiv.innerHTML = '<h1>Here we go!</h1>';
+console.log(timeDiv);
+let timer = 4;
+function updateTimer() {
+  timer -= 1;
+  if (timer > 0) {
+    timeDiv.innerHTML = `${timer} second${timer > 1 ? 's' : ''} left`;
+  } else {
+    timeDiv.innerHTML = `Time's UP`;
+  }
+}
+
 function makeCard(obj, index) {
   // const triviaCard = document.createElement('div');
 
@@ -75,10 +89,10 @@ function makeCard(obj, index) {
 }
 
 function startGame() {
+  setInterval(updateTimer, 1000);
   // format Questions into DOM elements
   const cardArray = trivia.map((obj, i) => makeCard(obj, i));
   // add Dom Elements to the form
-  console.log(cardArray);
   for (let i = 0; i < cardArray.length; i += 1) {
     const questionDiv = document.createElement('div');
     questionDiv.innerHTML = cardArray[i];
@@ -86,3 +100,10 @@ function startGame() {
   }
 }
 startGame();
+function endGame() {
+  // check answers
+  // remove game
+}
+setTimeout(() => {
+  endGame();
+}, 3000);
