@@ -54,8 +54,8 @@ const gameDiv = document.getElementById('game');
 // The timer
 const timeDiv = document.getElementById('time');
 timeDiv.innerHTML = '<h1>Here we go!</h1>';
-console.log(timeDiv);
 let timer = 4;
+// Count the Timer Down
 function updateTimer() {
   timer -= 1;
   if (timer > 0) {
@@ -64,13 +64,13 @@ function updateTimer() {
     timeDiv.innerHTML = `Time's UP`;
   }
 }
-
+// Makes a card for each trivia question
 function makeCard(obj, index) {
   // const triviaCard = document.createElement('div');
 
   // triviaCard.setAttribute('id', `question-${index + 1}`);
 
-  const cardHTML = `<div id=question-${index + 1}>
+  const cardHTML = `<div id="question-${index + 1}" class="triviaQ">
   <p class="question">${obj.question}</p>
   <input type="radio" name="question-${index + 1}" value="answer1"> ${
     obj.answer1
@@ -87,7 +87,7 @@ function makeCard(obj, index) {
   </div>`;
   return cardHTML;
 }
-
+// StartGame is run in the setTimeout
 function startGame() {
   setInterval(updateTimer, 1000);
   // format Questions into DOM elements
@@ -100,10 +100,13 @@ function startGame() {
   }
 }
 startGame();
+
 function endGame() {
-  // check answers
+  // Get NodeList
+  const userResults = document.querySelector('name=["question-1"]');
+  console.log(userResults);
   // remove game
 }
 setTimeout(() => {
   endGame();
-}, 3000);
+}, 4000);
