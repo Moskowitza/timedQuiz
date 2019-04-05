@@ -2,51 +2,28 @@
 const trivia = [
   {
     question: 'How many wheels are on a car?',
-    answer1: 1,
-    answer2: 2,
-    answer3: 4,
-    answer4: 5,
-    correctAnswer: this.answer4,
+    answers: [1, 2, 3, 4],
+    correctAnswer: 4,
   },
   {
     question: 'How many wheels are on a motorcycle?',
-    answer1: 1,
-    answer2: 2,
-    answer3: 4,
-    answer4: 5,
-    correctAnswer: this.answer2,
+    answers: [1, 2, 3, 4],
+    correctAnswer: 2,
   },
   {
     question: 'How many wheels are on a unicycle?',
-    answer1: 1,
-    answer2: 2,
-    answer3: 4,
-    answer4: 5,
-    correctAnswer: this.answer1,
-  },
-  {
-    question: 'How many wheels are on a unicycle?',
-    answer1: 1,
-    answer2: 2,
-    answer3: 4,
-    answer4: 5,
-    correctAnswer: this.answer1,
+    answers: [1, 2, 3, 4],
+    correctAnswer: 1,
   },
   {
     question: 'How many wheels are on a tricycle?',
-    answer1: 1,
-    answer2: 2,
-    answer3: 3,
-    answer4: 5,
-    correctAnswer: this.answer3,
+    answers: [1, 2, 3, 4],
+    correctAnswer: 3,
   },
   {
     question: 'How many wheels are on an 18-Wheeler?',
-    answer1: 16,
-    answer2: 18,
-    answer3: 20,
-    answer4: 22,
-    correctAnswer: this.answer2,
+    answers: [1, 2, 3, 18],
+    correctAnswer: 18,
   },
 ];
 // The game Div
@@ -55,58 +32,61 @@ const gameDiv = document.getElementById('game');
 const timeDiv = document.getElementById('time');
 timeDiv.innerHTML = '<h1>Here we go!</h1>';
 let timer = 4;
-// Count the Timer Down
+let gameTimer;
+// Count the Timer Down and put it in the DOM
 function updateTimer() {
   timer -= 1;
   if (timer > 0) {
-    timeDiv.innerHTML = `${timer} second${timer > 1 ? 's' : ''} left`;
+    timeDiv.innerHTML = `
+      <h1>
+      ${timer} second${timer > 1 ? 's' : ''} left 
+      </h1>`;
   } else {
-    timeDiv.innerHTML = `Time's UP`;
+    timeDiv.innerHTML = `<h1>Time's UP</h1>`;
   }
 }
 // Makes a card for each trivia question
 function makeCard(obj, index) {
-  // const triviaCard = document.createElement('div');
-
-  // triviaCard.setAttribute('id', `question-${index + 1}`);
-
-  const cardHTML = `<div id="question-${index + 1}" class="triviaQ">
-  <p class="question">${obj.question}</p>
-  <input type="radio" name="question-${index + 1}" value="answer1"> ${
-    obj.answer1
-  } Wheels
-  <input type="radio" name="question-${index + 1}" value="answer2"> ${
-    obj.answer2
-  } Wheels
-  <input type="radio" name="question-${index + 1}" value="answer3"> ${
-    obj.answer3
-  } Wheels
-  <input type="radio" name="question-${index + 1}" value="answer4"> ${
-    obj.answer4
-  } Wheels
-  </div>`;
-  return cardHTML;
+  console.log(obj, index);
+  const questionCard = document.createElement('div');
+  questionCard.setAttribute('id', `question-${index}`);
+  const question = document.createElement('p');
+  question.textContent = obj.question;
+  const answerContainer = document.createElement('div');
+  answerContainer.setAttribute('class', 'answers');
+  // loop through answers
+  for (let i = 0; i < obj.answers.length; i += 1) {
+    const answerLabel = document.createElement('label');
+    const answerInput = document.createElement('input');
+    answerLabel.setAttribute('for', `question-${index}`);
+    answerInput.setAttribute('type', 'radio');
+    answerInput.setAttribute('name', `question-${index}`);
+    answerInput.setAttribute('value', `${obj.answers[i]}`);
+    answerLabel.innerText = obj.answers[i];
+    answerContainer.append(answerLabel);
+    answerContainer.append(answerInput);
+  }
+  questionCard.append(question);
+  questionCard.append(answerContainer);
+  gameDiv.append(questionCard);
 }
 // StartGame is run in the setTimeout
 function startGame() {
-  setInterval(updateTimer, 1000);
+  // gameTimer = setInterval(updateTimer, 1000);
   // format Questions into DOM elements
-  const cardArray = trivia.map((obj, i) => makeCard(obj, i));
-  // add Dom Elements to the form
-  for (let i = 0; i < cardArray.length; i += 1) {
-    const questionDiv = document.createElement('div');
-    questionDiv.innerHTML = cardArray[i];
-    gameDiv.append(questionDiv);
-  }
+  trivia.forEach((element, i) => {
+    makeCard(element, i);
+  });
 }
 startGame();
 
-function endGame() {
-  // Get NodeList
-  const userResults = document.querySelector('name=["question-1"]');
-  console.log(userResults);
-  // remove game
-}
-setTimeout(() => {
-  endGame();
-}, 4000);
+// function endGame() {
+//   // Get NodeList
+//   const userResults = document.querySelector('name=["question-1"]');
+//   console.log(userResults);
+//   // remove game
+//   clearInterval(gameTimer);
+// }
+// setTimeout(() => {
+//   endGame();
+// }, 4000);
